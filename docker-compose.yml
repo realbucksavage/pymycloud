@@ -1,0 +1,9 @@
+version: "3.4"
+
+services:
+  owncloud-app:
+    build: .
+    volumes:
+      - /owncloud:/owncloud
+    ports:
+      - 8000:8000

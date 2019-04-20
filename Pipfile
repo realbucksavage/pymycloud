@@ -9,6 +9,9 @@ autopep8 = "*"
 
 [packages]
 flask = "*"
+flask-restful = "*"
+cliff = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3"
