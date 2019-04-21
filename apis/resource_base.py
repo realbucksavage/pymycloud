@@ -8,7 +8,7 @@ from database.session import SessionFactoryPool
 
 class ResourceBase(Resource):
 
-    def get_principal(self):
+    def get_principal(self) -> Users:
         _db = SessionFactoryPool.get_current_session()
         access_key = self._assert_access_key()
         user = _db.query(Users).filter(

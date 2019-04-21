@@ -1,7 +1,6 @@
 import os
 import string
 
-from flask import request
 from flask_restful import Resource, reqparse
 
 import constants
@@ -60,10 +59,10 @@ class ClientFileManagementApi(resource_base.ResourceBase):
         user_dir = f"{constants.work_dir}/{user.username}/_user{request_dir}"
         response = {'files': list(), 'dirs': list()}
         if os.path.exists(user_dir):
-            for file in os.listdir(user_dir):
+            for _f in os.listdir(user_dir):
                 _coll = response['files'] if os.path.isfile(
-                    f'{user_dir}{file}') else response['dirs']
-                _coll.append(file)
+                    f'{user_dir}{_f}') else response['dirs']
+                _coll.append(_f)
 
             return response
 
