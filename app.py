@@ -1,6 +1,15 @@
 from flask import Flask
+from flask_restful import Api
+
+from apis.client.api import ClientLoginApi
 
 app = Flask(__name__, static_folder="frontend", static_url_path="/frontend")
+api = Api(app)
+
+# Api routes
+
+# For desktop clients
+api.add_resource(ClientLoginApi, "/api/client/login")
 
 
 @app.route("/")
