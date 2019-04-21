@@ -28,8 +28,8 @@ class ClientLoginApi(Resource):
         if user and cryp.check_digest(password, user.password):
             if user.access_key is None:
                 user.access_key = stru.randstr(
-                    chars=(string.ascii_uppercase +
-                           string.digits + string.ascii_lowercase),
+                    chars=(string.ascii_uppercase
+                           + string.digits + string.ascii_lowercase),
                     len=32)
 
                 _session.commit()

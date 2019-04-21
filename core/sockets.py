@@ -6,8 +6,16 @@ from core.runners.downloader import FileTransmitter
 
 
 class OwncloudSocketRequestHandler(socketserver.BaseRequestHandler):
+    """
+    Handles the traffic received over a TCP socket. The request must specify a
+    transmission key (generated using the REST API)
+    """
 
     def handle(self):
+        """Hook that handles the traffic.
+
+        TODO: Added erorr handling
+        """
         # Receive the initial 8-character Transmission Key
         transmission_key = self.request.recv(16).decode()
 

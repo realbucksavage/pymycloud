@@ -5,6 +5,11 @@ from database.models import Users
 
 
 class FileTransmitter:
+    """
+    Writes a requested file over the TCP Socket. The file is divided into
+    blocks 64 Bytes.
+    """
+
     def __init__(self, user: Users, request):
         self._user = user
         self._request = request

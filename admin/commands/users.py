@@ -1,6 +1,5 @@
 import os
 import shutil
-import uuid
 
 from cliff.command import Command
 from cliff.lister import Lister

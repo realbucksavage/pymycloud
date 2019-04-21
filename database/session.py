@@ -1,15 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import owncloud_utils.fileutils as utils
 
 import constants
 from database.models import Base as DeclarativeBase
 
 SQLITE_FILE = f"sqlite:///{constants.work_dir}/owncloud.db"
 
+
 class SessionFactoryPool:
     """
-    This class provides easy methods to obtain the current open or an entirely      
+    This class provides easy methods to obtain the current open or an entirely
     new database session.
     """
     current_session = None
