@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="owncloud_admin",
@@ -7,7 +7,7 @@ setup(
     author="Jay Godara",
     entry_points={
         "console_scripts": [
-            "owncloud_admin = owncloud_admin:main"
+            "owncloud_admin = admin.owncloud_admin:main"
         ]
     }
 )

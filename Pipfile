@@ -12,6 +12,7 @@ flask = "*"
 flask-restful = "*"
 cliff = "*"
 sqlalchemy = "*"
+owncloud-admin = {editable = true,path = "."}
 
 [requires]
 python_version = "3"

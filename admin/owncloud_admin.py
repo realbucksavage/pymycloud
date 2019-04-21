@@ -3,7 +3,8 @@ import sys
 from cliff.app import App
 from cliff.commandmanager import CommandManager
 
-from admin.commands.list import ListUsers
+from admin.commands.users import AddUser, DeleteUser, ListUsers
+from database.session import SessionFactoryPool
 
 
 class OwnCloudAdmin(App):
@@ -16,8 +17,12 @@ class OwnCloudAdmin(App):
             deferred_help=True
         )
 
+    def prepare_to_run_command(self, cmd):
+        # Initialze the database session
+        _ = SessionFactoryPool.get_current_session()
+
     def initialize_app(self, argv):
-        commands = [ListUsers, ]
+        commands = [ListUsers, AddUser, DeleteUser]
         for command in commands:
             self.command_manager.add_command(
                 command.__name__.lower(), command)
