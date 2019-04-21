@@ -1,9 +1,11 @@
 import os
+import shutil
 import uuid
 
 from cliff.command import Command
 from cliff.lister import Lister
 
+import constants
 import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
 from database.models import Users
@@ -54,6 +56,9 @@ class AddUser(Command):
         database_session.add(user)
         database_session.commit()
 
+        user_dir = f"{constants.work_dir}/{user.username}/_user"
+        os.makedirs(user_dir)
+
         print(f"{username} created. Generated password: {generated_password}")
 
 
@@ -77,5 +82,8 @@ class DeleteUser(Command):
 
         database_session.delete(user)
         database_session.commit()
+
+        user_dir = f"{constants.work_dir}/{user.username}"
+        shutil.rmtree(user_dir)
 
         print(f"{username} deleted")

@@ -1,17 +1,27 @@
-from flask import request
-from flask_restful import Resource
+import os
+import string
 
-from database.models import Users
-from database.session import SessionFactoryPool
+from flask import request
+from flask_restful import Resource, reqparse
+
+import constants
 import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
-import string
+from apis import resource_base
+from database.models import Users
+from database.session import SessionFactoryPool
 
 
 class ClientLoginApi(Resource):
+    def __init__(self):
+        self._parser = reqparse.RequestParser()
+        self._parser.add_argument('username')
+        self._parser.add_argument('password')
+
     def post(self):
-        username = request.form['username']
-        password = request.form['password']
+        args = self._parser.parse_args(strict=True)
+        username = args['username']
+        password = args['password']
 
         _session = SessionFactoryPool.get_current_session()
         user = _session.query(Users).filter(Users.username == username).first()
@@ -28,3 +38,33 @@ class ClientLoginApi(Resource):
             return {'success': True, 'access_key': user.access_key}
 
         return {'success': False}, 403
+
+
+class ClientFileManagementApi(resource_base.ResourceBase):
+    def __init__(self):
+        self._parser = reqparse.RequestParser()
+        self._parser.add_argument('dir')
+        self._parser.add_argument('access_key')
+
+    def get(self):
+        args = self._parser.parse_args(strict=True)
+
+        user = self.get_principal()
+        request_dir = args['dir']
+        if request_dir is None:
+            request_dir = '/'
+
+        if not request_dir[0] == '/':
+            request_dir = f"/{request_dir}"
+
+        user_dir = f"{constants.work_dir}/{user.username}/_user{request_dir}"
+        response = {'files': list(), 'dirs': list()}
+        if os.path.exists(user_dir):
+            for file in os.listdir(user_dir):
+                _coll = response['files'] if os.path.isfile(
+                    f'{user_dir}{file}') else response['dirs']
+                _coll.append(file)
+
+            return response
+
+        return {'success': False, 'message': f'{request_dir} does not exist'}, 404
