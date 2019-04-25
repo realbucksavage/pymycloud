@@ -138,3 +138,4 @@ Pipfile.lock
 package-lock.json
 frontend/dist/main.js
 node_modules
+.idea
