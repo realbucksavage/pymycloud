@@ -4,9 +4,9 @@ import shutil
 from cliff.command import Command
 from cliff.lister import Lister
 
-import constants
 import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
+from constants import constants
 from database.models import Users
 from database.session import SessionFactoryPool
 

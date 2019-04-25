@@ -3,10 +3,10 @@ import string
 
 from flask_restful import Resource, reqparse
 
-import constants
 import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
 from apis import resource_base
+from constants import constants
 from database.models import Users
 from database.session import SessionFactoryPool
 

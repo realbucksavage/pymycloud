@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import constants
+from constants import constants
 from database.models import Base as DeclarativeBase
 
 SQLITE_FILE = f"sqlite:///{constants.work_dir}/owncloud.db"

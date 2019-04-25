@@ -1,8 +1,8 @@
 import socketserver
 
+from core.runners.downloader import FileTransmitter
 from database.models import Transmissions
 from database.session import SessionFactoryPool
-from core.runners.downloader import FileTransmitter
 
 
 class OwncloudSocketRequestHandler(socketserver.BaseRequestHandler):

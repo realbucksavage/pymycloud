@@ -1,6 +1,6 @@
 import zlib
 
-import constants
+from constants import constants
 from database.models import Users
 
 

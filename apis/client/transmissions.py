@@ -1,8 +1,7 @@
+import owncloud_utils.strings as stru
 from apis.resource_base import ResourceBase
-
 from database.models import Transmissions
 from database.session import SessionFactoryPool
-import owncloud_utils.strings as stru
 
 
 class ClientTransmissionApi(ResourceBase):
