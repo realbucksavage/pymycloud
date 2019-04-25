@@ -1,5 +1,5 @@
-![GitHub](https://img.shields.io/github/license/jgodara/owncloud.svg?style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/jgodara/owncloud.svg)
+![GitHub](https://img.shields.io/github/license/jgodara/pymycloud.svg?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/jgodara/pymycloud.svg)
 
 # PyMyCloud
 
