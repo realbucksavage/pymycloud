@@ -1,4 +1,5 @@
-FROM python:3
+ARG PYTHON_BASE_IMG=python:3
+FROM ${PYTHON_BASE_IMG}
 
 WORKDIR /usr/src/app
 

@@ -29,8 +29,8 @@ $ pipe install -e .
 
 ## Running
 
-For this to work, you need to crate a folder `/owncloud` with appropriate read/write permissions on it.
-It's recommended to mount a stoage media on this folder, but it should work without it.
+For this to work, you need to create a folder `/owncloud` with appropriate read/write permissions on it.
+It's recommended to mount a stoage media on this folder, but it should work without it. A Sample command to create a folder idempotently is `mkdir -p ~/owncloud`
 
 After that, `python app.py` should be enough.
 
@@ -40,11 +40,11 @@ Since I'm lazy at this time, you have to build the front-end first and then fire
 
 #### Running with docker on a Raspberry PI
 
-`docker-compose` magic won't work here since Docker for ARM is different so we will need to change a few things around. First of those things would be to replace the `FROM python:3` tag in the `Dockerfile` with `FROM arm32v7/python:2.7.13-jessie`.
-
-Then we will manually build and run the container.
+`docker-compose` magic won't work here since Docker for ARM is different so we will need to change a few things around. First of those things would be to add the argument for `PYTHON_BASE_IMG` to the `docker build` call like so:
 
 ```shell
-$ docker build -t owncloud:stable .
-$ docker run --name owncloud -p 8000:8000 -v /owncloud:/owncloud -d owncloud:stable
+docker build -t pymycloud:latest --build-arg PYTHON_BASE_IMG=arm32v7/python:2.7.13-jessie`.
+$ docker run --name pymycloud -p 8000:8000 -v $HOME/owncloud:/owncloud -d pymycloud
 ```
+
+You could setup a separate docker-compose for rPi ARM, but for-now it's a case of contributions welcome
