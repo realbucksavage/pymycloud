@@ -55,7 +55,7 @@ class AddUser(Command):
         database_session.add(user)
         database_session.commit()
 
-        user_dir = f"{constants.work_dir}/{user.username}/_user"
+        user_dir = f"{constants.work_dir()}/{user.username}/_user"
         os.makedirs(user_dir)
 
         print(f"{username} created. Generated password: {generated_password}")
@@ -82,7 +82,7 @@ class DeleteUser(Command):
         database_session.delete(user)
         database_session.commit()
 
-        user_dir = f"{constants.work_dir}/{user.username}"
+        user_dir = f"{constants.work_dir()}/{user.username}"
         shutil.rmtree(user_dir)
 
         print(f"{username} deleted")

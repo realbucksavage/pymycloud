@@ -19,7 +19,7 @@ class FileTransmitter:
         self._compressor = zlib.compressobj(1)
 
     def run(self):
-        base_dir = f"{constants.work_dir}/{self._user.username}/_user"
+        base_dir = f"{constants.work_dir()}/{self._user.username}/_user"
 
         # Requested file
         request_file = self._request.recv(1024).decode()

@@ -56,7 +56,7 @@ class ClientFileManagementApi(resource_base.ResourceBase):
         if not request_dir[0] == '/':
             request_dir = f"/{request_dir}"
 
-        user_dir = f"{constants.work_dir}/{user.username}/_user{request_dir}"
+        user_dir = f"{constants.work_dir()}/{user.username}/_user{request_dir}"
         response = {'files': list(), 'dirs': list()}
         if os.path.exists(user_dir):
             for _f in os.listdir(user_dir):

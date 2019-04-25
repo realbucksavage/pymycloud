@@ -27,7 +27,7 @@ def root_controller():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(file=f"{constants.work_dir}/pymycloud.log", level=logging.INFO)
+    logging.basicConfig(file=f"{constants.work_dir()}/pymycloud.log", level=logging.INFO)
 
     address = ("0.0.0.0", 9795)
     server = socketserver.TCPServer(address, SocketRequestHandler)

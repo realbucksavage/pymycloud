@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from constants import constants
 from database.models import Base as DeclarativeBase
 
-SQLITE_FILE = f"sqlite:///{constants.work_dir}/owncloud.db"
+SQLITE_FILE = f"sqlite:///{constants.work_dir()}/owncloud.db"
 
 
 class SessionFactoryPool:
