@@ -3,6 +3,8 @@ import zlib
 from constants import constants
 from database.models import Users
 
+BLOCK_SIZE = 64
+
 
 class FileTransmitter:
     """
@@ -14,7 +16,6 @@ class FileTransmitter:
         self._user = user
         self._request = request
 
-        self._block_size = 64
         self._compressor = zlib.compressobj(1)
 
     def run(self):
@@ -25,9 +26,9 @@ class FileTransmitter:
         if not request_file[0] == "/":
             request_file = f"/{request_file}"
 
-        with open(f"{base_dir}{request_file}", "rb") as input:
+        with open(f"{base_dir}{request_file}", "rb") as in_file:
             while True:
-                block = input.read(self._block_size)
+                block = in_file.read(BLOCK_SIZE)
                 if not block:
                     break
 
@@ -37,6 +38,6 @@ class FileTransmitter:
 
             remaining_buffer = self._compressor.flush()
             while remaining_buffer:
-                to_send = remaining_buffer[:self._block_size]
-                remaining_buffer = remaining_buffer[self._block_size:]
+                to_send = remaining_buffer[:BLOCK_SIZE]
+                remaining_buffer = remaining_buffer[BLOCK_SIZE:]
                 self._request.send(to_send)
