@@ -3,7 +3,7 @@ from flask_restful import Resource
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from database.models import Users
-from database.session import SessionFactoryPool
+from database.repositories import UserRepository
 
 
 class ResourceBase(Resource):
@@ -21,10 +21,9 @@ class ResourceBase(Resource):
             A user model associated with the incoming access_key.
 
         """
-        _db = SessionFactoryPool.get_current_session()
+        repo = UserRepository.get_instance()
         access_key = self._assert_access_key()
-        user = _db.query(Users).filter(
-            Users.access_key == access_key).first()
+        user = repo.get_by_access_key(access_key)
         if not user:
             raise Unauthorized(f"No binding found for {access_key}")
 

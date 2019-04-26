@@ -7,8 +7,7 @@ import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
 from apis import resource_base
 from constants import constants
-from database.models import Users
-from database.session import SessionFactoryPool
+from database.repositories import UserRepository
 
 
 class ClientLoginApi(Resource):
@@ -22,17 +21,17 @@ class ClientLoginApi(Resource):
         username = args['username']
         password = args['password']
 
-        _session = SessionFactoryPool.get_current_session()
-        user = _session.query(Users).filter(Users.username == username).first()
+        repo = UserRepository.get_instance()
+        user = repo.get_by_username(username)
 
         if user and cryp.check_digest(password, user.password):
             if user.access_key is None:
-                user.access_key = stru.randstr(
+                access_key = stru.randstr(
                     chars=(string.ascii_uppercase
                            + string.digits + string.ascii_lowercase),
                     len=32)
 
-                _session.commit()
+                repo.update(user, access_key=access_key)
 
             return {'success': True, 'access_key': user.access_key}
 

@@ -8,18 +8,18 @@ import owncloud_utils.crypto as cryp
 import owncloud_utils.strings as stru
 from constants import constants
 from database.models import Users
-from database.session import SessionFactoryPool
+from database.repositories import UserRepository
 
 
 class ListUsers(Lister):
-    "Displays the list of all registered users"
+    """Displays the list of all registered users"""
 
     def take_action(self, parsed_args):
-        database_session = SessionFactoryPool.get_current_session()
+        repo = UserRepository.get_instance()
 
-        users_list = database_session.query(Users).all()
+        users_list = repo.all()
 
-        print(f"{database_session.query(Users).count()} recods")
+        print(f"{len(users_list)} records")
 
         return (
             ("ID", "Username", "Storage Limit (bytes)"),
@@ -37,11 +37,10 @@ class AddUser(Command):
         return parser
 
     def take_action(self, parsed_args):
-        database_session = SessionFactoryPool.get_current_session()
+        repo = UserRepository.get_instance()
 
         username = parsed_args.username
-        user = database_session.query(Users).filter(
-            Users.username == username).first()
+        user = repo.get_by_username(username)
 
         if user:
             raise ValueError(f"{username} is not allowed")
@@ -52,8 +51,7 @@ class AddUser(Command):
         user.username = username
         user.password = cryp.digest_string(generated_password)
 
-        database_session.add(user)
-        database_session.commit()
+        repo.create(user)
 
         user_dir = f"{constants.work_dir()}/{user.username}/_user"
         os.makedirs(user_dir)
@@ -70,17 +68,15 @@ class DeleteUser(Command):
         return parser
 
     def take_action(self, parsed_args):
-        database_session = SessionFactoryPool.get_current_session()
+        repo = UserRepository.get_instance()
 
         username = parsed_args.username
-        user = database_session.query(Users).filter(
-            Users.username == username).first()
+        user = repo.get_by_username(username)
 
         if not user:
             raise ValueError(f"{username} is invalid")
 
-        database_session.delete(user)
-        database_session.commit()
+        repo.delete(user)
 
         user_dir = f"{constants.work_dir()}/{user.username}"
         shutil.rmtree(user_dir)

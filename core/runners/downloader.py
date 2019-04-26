@@ -10,6 +10,8 @@ class FileTransmitter:
     """
     Writes a requested file over the TCP Socket. The file is divided into
     blocks 64 Bytes.
+
+    TODO Add support for directories
     """
 
     def __init__(self, user: Users, request):
